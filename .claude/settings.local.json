@@ -1,0 +1,14 @@
+{
+  "permissions": {
+    "allow": [
+      "WebFetch(domain:ui.shadcn.com)",
+      "WebFetch(domain:twenty.com)",
+      "WebSearch",
+      "Bash(npx shadcn@latest add sidebar dropdown-menu tooltip collapsible sheet skeleton breadcrumb command dialog --yes)",
+      "Bash(npm run build:*)",
+      "mcp__ide__getDiagnostics",
+      "Bash(npx shadcn@latest add:*)",
+      "Bash(npm install:*)"
+    ]
+  }
+}
