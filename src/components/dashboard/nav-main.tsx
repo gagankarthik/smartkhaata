@@ -9,6 +9,8 @@ import {
   FileText,
   Bell,
   Settings,
+  Ticket,
+  BarChart3,
   type LucideIcon,
 } from "lucide-react"
 
@@ -51,6 +53,16 @@ const platformItems: NavItem[] = [
     title: "Reminders",
     href: "/dashboard/reminders",
     icon: Bell,
+  },
+  {
+    title: "Tickets",
+    href: "/dashboard/tickets",
+    icon: Ticket,
+  },
+  {
+    title: "Reports",
+    href: "/dashboard/reports",
+    icon: BarChart3,
   },
 ]
 

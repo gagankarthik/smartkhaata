@@ -1,8 +1,13 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import Link from "next/link";
-import { motion } from "framer-motion";
+import dynamic from "next/dynamic";
+
+const MotionDiv = dynamic(
+  () => import("framer-motion").then((mod) => mod.motion.div),
+  { ssr: false }
+);
 import {
   Menu,
   X,
@@ -39,7 +44,10 @@ import {
   Cloud,
   Layers,
   Grid,
-  DollarSign
+  DollarSign,
+  Ticket,
+  Headphones,
+  AlertCircle,
 } from "lucide-react";
 
 import Image from "next/image";
@@ -48,6 +56,12 @@ export default function Home() {
   const [isDarkMode, setIsDarkMode] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const [mounted, setMounted] = useState(false);
+  const [logoError, setLogoError] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -67,13 +81,6 @@ export default function Home() {
 
   return (
     <>
-      <head>
-        <title>Smartkhaata - WhatsApp-first CRM for micro-businesses</title>
-        <meta name="description" content="Replace Excel + WhatsApp chaos with simple deal tracking, follow-up reminders, and invoice syncing. Built for 1-5 person teams." />
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <link rel="icon" href="/favicon.ico" />
-      </head>
-
       <style jsx global>{`
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
         
@@ -149,11 +156,20 @@ export default function Home() {
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="flex items-center justify-between h-16">
               {/* Logo */}
-              <Link href="/" className="flex items-center space-x-2">
-                <div className=" flex items-center justify-center">
-                  <Image src="/logo-text.svg" height={135} width={125} className="w-32 h-auto" loading="eager" alt="Logo"/>
-                </div>
-                
+              <Link href="/" className="flex items-center">
+                {!logoError ? (
+                  <Image
+                    src="/logo-text.svg"
+                    height={32}
+                    width={120}
+                    className="h-8 w-auto"
+                    alt="Smartkhaata Logo"
+                    onError={() => setLogoError(true)}
+                    priority
+                  />
+                ) : (
+                  <span className="text-xl font-bold text-gray-900 dark:text-white">Smartkhaata</span>
+                )}
               </Link>
 
               {/* Desktop Navigation */}
@@ -199,7 +215,7 @@ export default function Home() {
 
             {/* Mobile Menu */}
             {mobileMenuOpen && (
-              <motion.div
+              <MotionDiv
                 initial={{ opacity: 0, height: 0 }}
                 animate={{ opacity: 1, height: 'auto' }}
                 exit={{ opacity: 0, height: 0 }}
@@ -216,7 +232,7 @@ export default function Home() {
                     Get Started
                   </Link>
                 </div>
-              </motion.div>
+              </MotionDiv>
             )}
           </div>
         </nav>
@@ -225,7 +241,7 @@ export default function Home() {
         <section className="pt-32 pb-24 px-4 relative overflow-hidden">
           <div className="max-w-7xl mx-auto">
             <div className="text-center max-w-4xl mx-auto">
-              <motion.div
+              <MotionDiv
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5 }}
@@ -260,11 +276,11 @@ export default function Home() {
                 <p className="text-sm text-gray-500 dark:text-gray-500">
                   Used by 1,000+ micro-businesses. No credit card required.
                 </p>
-              </motion.div>
+              </MotionDiv>
             </div>
 
             {/* Dashboard Preview - NocoBase Style */}
-            <motion.div
+            <MotionDiv
               initial={{ opacity: 0, y: 40 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.2 }}
@@ -361,7 +377,7 @@ export default function Home() {
                 <div className="absolute -top-4 -right-4 w-32 h-32 bg-blue-200 dark:bg-blue-900/30 rounded-full blur-3xl -z-10"></div>
                 <div className="absolute -bottom-4 -left-4 w-40 h-40 bg-purple-200 dark:bg-purple-900/30 rounded-full blur-3xl -z-10"></div>
               </div>
-            </motion.div>
+            </MotionDiv>
           </div>
         </section>
 
@@ -406,7 +422,7 @@ export default function Home() {
                   step: "03"
                 }
               ].map((step, i) => (
-                <motion.div
+                <MotionDiv
                   key={i}
                   initial={{ opacity: 0, y: 20 }}
                   whileInView={{ opacity: 1, y: 0 }}
@@ -427,7 +443,7 @@ export default function Home() {
                       <ChevronRight className="w-6 h-6" />
                     </div>
                   )}
-                </motion.div>
+                </MotionDiv>
               ))}
             </div>
 
@@ -454,11 +470,11 @@ export default function Home() {
                 { icon: MessageSquare, title: "WhatsApp Native", description: "Work where your customers already are" },
                 { icon: Layout, title: "Deal Pipeline", description: "Visual kanban for tracking opportunities" },
                 { icon: FileText, title: "Smart Invoicing", description: "Create and send invoices from any chat" },
+                { icon: Ticket, title: "Customer Tickets", description: "Track support requests with priorities & categories" },
                 { icon: Bell, title: "Follow-up Reminders", description: "Never miss a payment or follow-up" },
-                { icon: Repeat, title: "Auto-sync", description: "Seamless integration with Xero & QuickBooks" },
                 { icon: BarChart3, title: "Analytics", description: "Know exactly where your business stands" }
               ].map((feature, i) => (
-                <motion.div
+                <MotionDiv
                   key={i}
                   initial={{ opacity: 0, y: 20 }}
                   whileInView={{ opacity: 1, y: 0 }}
@@ -471,7 +487,7 @@ export default function Home() {
                   </div>
                   <h3 className="font-medium text-gray-900 dark:text-white mb-2">{feature.title}</h3>
                   <p className="text-sm text-gray-600 dark:text-gray-400">{feature.description}</p>
-                </motion.div>
+                </MotionDiv>
               ))}
             </div>
           </div>
@@ -525,8 +541,100 @@ export default function Home() {
           </div>
         </section>
 
-        {/* Testimonials - NocoBase Style */}
+        {/* Ticketing System Highlight */}
         <section className="py-24 px-4 bg-gray-50/50 dark:bg-gray-900/50 border-y border-gray-200 dark:border-gray-800">
+          <div className="max-w-7xl mx-auto">
+            <div className="grid lg:grid-cols-2 gap-16 items-center">
+              <MotionDiv
+                initial={{ opacity: 0, x: -20 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true }}
+              >
+                <div className="inline-flex items-center space-x-1 px-3 py-1 bg-purple-50 dark:bg-purple-950/30 rounded-full border border-purple-200 dark:border-purple-800 mb-6">
+                  <Headphones className="w-3 h-3 text-purple-600 dark:text-purple-400" />
+                  <span className="text-xs font-medium text-purple-700 dark:text-purple-300">Customer Support</span>
+                </div>
+                <h2 className="text-3xl font-medium text-gray-900 dark:text-white mb-6">
+                  Built-in ticketing system for customer support
+                </h2>
+                <p className="text-lg text-gray-600 dark:text-gray-400 mb-8">
+                  Track customer issues, complaints, and inquiries with our integrated ticketing system.
+                  Never lose track of customer conversations again.
+                </p>
+                <div className="space-y-4">
+                  {[
+                    { icon: AlertCircle, text: "Priority levels: Low, Medium, High, Urgent" },
+                    { icon: Layers, text: "Categories: Billing, Technical, Sales, Complaints" },
+                    { icon: Clock, text: "Status tracking from Open to Resolved" },
+                    { icon: MessageSquare, text: "Threaded conversations for each ticket" }
+                  ].map((item, i) => (
+                    <div key={i} className="flex items-center space-x-3">
+                      <div className="w-8 h-8 bg-purple-50 dark:bg-purple-950/30 rounded-lg flex items-center justify-center flex-shrink-0">
+                        <item.icon className="w-4 h-4 text-purple-600 dark:text-purple-400" />
+                      </div>
+                      <span className="text-gray-700 dark:text-gray-300">{item.text}</span>
+                    </div>
+                  ))}
+                </div>
+              </MotionDiv>
+
+              <MotionDiv
+                initial={{ opacity: 0, x: 20 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true }}
+                className="relative"
+              >
+                <div className="card-shadow rounded-2xl bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 overflow-hidden">
+                  <div className="flex items-center space-x-2 px-4 py-3 bg-gray-50 dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700">
+                    <div className="w-3 h-3 rounded-full bg-red-500"></div>
+                    <div className="w-3 h-3 rounded-full bg-yellow-500"></div>
+                    <div className="w-3 h-3 rounded-full bg-green-500"></div>
+                    <span className="text-xs text-gray-500 dark:text-gray-400 ml-2">Customer Service</span>
+                  </div>
+                  <div className="p-4">
+                    <div className="flex items-center justify-between mb-4">
+                      <h3 className="text-sm font-medium text-gray-900 dark:text-white">Recent Tickets</h3>
+                      <span className="text-xs px-2 py-1 bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 rounded-full">3 Open</span>
+                    </div>
+                    <div className="space-y-3">
+                      {[
+                        { id: "TKT-001", subject: "Order not received", status: "Open", priority: "High", time: "2h ago" },
+                        { id: "TKT-002", subject: "Billing inquiry", status: "In Progress", priority: "Medium", time: "5h ago" },
+                        { id: "TKT-003", subject: "Product question", status: "Resolved", priority: "Low", time: "1d ago" },
+                      ].map((ticket, i) => (
+                        <div key={i} className="p-3 bg-gray-50 dark:bg-gray-800 rounded-lg">
+                          <div className="flex items-center justify-between mb-1">
+                            <div className="flex items-center gap-2">
+                              <span className="text-xs font-mono text-gray-500 dark:text-gray-400">{ticket.id}</span>
+                              <span className={`text-xs px-1.5 py-0.5 rounded ${
+                                ticket.priority === "High" ? "bg-red-100 dark:bg-red-900/30 text-red-600 dark:text-red-400" :
+                                ticket.priority === "Medium" ? "bg-yellow-100 dark:bg-yellow-900/30 text-yellow-600 dark:text-yellow-400" :
+                                "bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-400"
+                              }`}>{ticket.priority}</span>
+                            </div>
+                            <span className="text-xs text-gray-500 dark:text-gray-400">{ticket.time}</span>
+                          </div>
+                          <div className="flex items-center justify-between">
+                            <p className="text-sm font-medium text-gray-900 dark:text-white">{ticket.subject}</p>
+                            <span className={`text-xs px-2 py-0.5 rounded-full ${
+                              ticket.status === "Open" ? "bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400" :
+                              ticket.status === "In Progress" ? "bg-yellow-100 dark:bg-yellow-900/30 text-yellow-600 dark:text-yellow-400" :
+                              "bg-green-100 dark:bg-green-900/30 text-green-600 dark:text-green-400"
+                            }`}>{ticket.status}</span>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+                <div className="absolute -top-4 -right-4 w-32 h-32 bg-purple-200 dark:bg-purple-900/30 rounded-full blur-3xl -z-10"></div>
+              </MotionDiv>
+            </div>
+          </div>
+        </section>
+
+        {/* Testimonials - NocoBase Style */}
+        <section className="py-24 px-4">
           <div className="max-w-7xl mx-auto">
             <div className="text-center max-w-2xl mx-auto mb-16">
               <h2 className="text-3xl font-medium text-gray-900 dark:text-white mb-4">Loved by micro-businesses</h2>
@@ -554,7 +662,7 @@ export default function Home() {
                   rating: 5
                 }
               ].map((testimonial, i) => (
-                <motion.div
+                <MotionDiv
                   key={i}
                   initial={{ opacity: 0, y: 20 }}
                   whileInView={{ opacity: 1, y: 0 }}
@@ -572,7 +680,7 @@ export default function Home() {
                     <p className="font-medium text-gray-900 dark:text-white">{testimonial.author}</p>
                     <p className="text-sm text-gray-500 dark:text-gray-500">{testimonial.role}</p>
                   </div>
-                </motion.div>
+                </MotionDiv>
               ))}
             </div>
           </div>
@@ -588,7 +696,7 @@ export default function Home() {
 
             <div className="grid md:grid-cols-2 gap-8 max-w-3xl mx-auto">
               {/* Starter Plan */}
-              <motion.div
+              <MotionDiv
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.1 }}
@@ -612,10 +720,10 @@ export default function Home() {
                 <button className="w-full px-4 py-3 bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-white font-medium rounded-lg hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors">
                   Start Free Trial
                 </button>
-              </motion.div>
+              </MotionDiv>
 
               {/* Pro Plan */}
-              <motion.div
+              <MotionDiv
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.2 }}
@@ -642,7 +750,7 @@ export default function Home() {
                 <button className="w-full px-4 py-3 bg-white text-blue-600 font-medium rounded-lg hover:bg-gray-100 transition-colors">
                   Start Free Trial
                 </button>
-              </motion.div>
+              </MotionDiv>
             </div>
           </div>
         </section>
@@ -650,7 +758,7 @@ export default function Home() {
         {/* CTA Section - NocoBase Style */}
         <section className="py-24 px-4 bg-gray-50/50 dark:bg-gray-900/50 border-y border-gray-200 dark:border-gray-800">
           <div className="max-w-4xl mx-auto text-center">
-            <motion.div
+            <MotionDiv
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
@@ -668,7 +776,7 @@ export default function Home() {
                   Live Demo
                 </Link>
               </div>
-            </motion.div>
+            </MotionDiv>
           </div>
         </section>
 
@@ -678,10 +786,19 @@ export default function Home() {
             <div className="grid md:grid-cols-4 gap-8 mb-12">
               {/* Brand */}
               <div>
-                <div className="flex items-center space-x-2 mb-4">
-                  <div className="flex items-center justify-center">
-                  <Image src="/logo-text.svg" height={135} width={125} className="w-32 h-auto" loading="eager" alt="Logo"/>
-                  </div>
+                <div className="mb-4">
+                  {!logoError ? (
+                    <Image
+                      src="/logo-text.svg"
+                      height={32}
+                      width={120}
+                      className="h-8 w-auto"
+                      alt="Smartkhaata Logo"
+                      onError={() => setLogoError(true)}
+                    />
+                  ) : (
+                    <span className="text-xl font-bold text-gray-900 dark:text-white">Smartkhaata</span>
+                  )}
                 </div>
                 <p className="text-sm text-gray-600 dark:text-gray-400">
                   WhatsApp-first CRM for micro-businesses.
@@ -722,7 +839,7 @@ export default function Home() {
             {/* Bottom Bar */}
             <div className="flex flex-col md:flex-row items-center justify-between pt-8 border-t border-gray-200 dark:border-gray-800">
               <p className="text-sm text-gray-600 dark:text-gray-400 mb-4 md:mb-0">
-                © 2024 Smartkaatha. All rights reserved.
+                © 2026 Smartkaatha. All rights reserved.
               </p>
               <div className="flex space-x-4">
                 <a href="#" className="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 transition-colors">
