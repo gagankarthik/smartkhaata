@@ -151,7 +151,7 @@ export default function Home() {
               {/* Logo */}
               <Link href="/" className="flex items-center space-x-2">
                 <div className=" flex items-center justify-center">
-                  <Image src="/logo-text.svg" height={135} width={135} alt="Logo"/>
+                  <Image src="/logo-text.svg" height={135} width={125} alt="Logo"/>
                 </div>
                 
               </Link>
