@@ -168,7 +168,14 @@ export default function Home() {
                     priority
                   />
                 ) : (
-                  <span className="text-xl font-bold text-gray-900 dark:text-white">Smartkhaata</span>
+                  <Image
+                                 src="/logo-text.svg"
+                                 alt="SmartKhaata"
+                                 width={140}
+                                 height={40}
+                                 className="h-7 md:h-8 w-auto"
+                                 priority
+                               />
                 )}
               </Link>
 
@@ -797,7 +804,14 @@ export default function Home() {
                       onError={() => setLogoError(true)}
                     />
                   ) : (
-                    <span className="text-xl font-bold text-gray-900 dark:text-white">Smartkhaata</span>
+                     <Image
+                                    src="/logo-text.svg"
+                                    alt="SmartKhaata"
+                                    width={140}
+                                    height={40}
+                                    className="h-7 md:h-8 w-auto"
+                                    priority
+                                  />
                   )}
                 </div>
                 <p className="text-sm text-gray-600 dark:text-gray-400">

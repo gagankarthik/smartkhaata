@@ -5,6 +5,7 @@ import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { MessageSquare, Mail, Lock, User, Loader2, Eye, EyeOff, Check, ArrowLeft } from 'lucide-react'
 import { createClient } from '@/utils/supabase/client'
+import Image from 'next/image'
 
 export default function SignupPage() {
   const [fullName, setFullName] = useState('')
@@ -58,9 +59,7 @@ export default function SignupPage() {
       {/* Grid Background - Matching homepage */}
       <div className="fixed inset-0 bg-grid-pattern pointer-events-none"></div>
       
-      {/* Subtle Gradient Overlay - Matching homepage */}
-      <div className="fixed inset-0 bg-gradient-to-b from-white via-transparent to-white dark:from-gray-950 dark:via-transparent dark:to-gray-950 pointer-events-none"></div>
-
+      
       {/* Back to Home Link */}
       <Link 
         href="/" 
@@ -74,10 +73,14 @@ export default function SignupPage() {
         {/* Header */}
         <div className="text-center mb-8">
           <Link href="/" className="inline-flex items-center justify-center space-x-2 group">
-            <div className="w-10 h-10 bg-blue-600 rounded-lg flex items-center justify-center group-hover:scale-105 transition-transform">
-              <MessageSquare className="w-5 h-5 text-white" />
-            </div>
-            <span className="text-2xl font-semibold text-gray-900 dark:text-white">FlowDesk</span>
+            <Image
+                           src="/logo-text.svg"
+                           alt="SmartKhaata"
+                           width={140}
+                           height={40}
+                           className="h-7 md:h-8 w-auto"
+                           priority
+                         />
           </Link>
           <h2 className="mt-6 text-3xl font-medium text-gray-900 dark:text-white">Create your account</h2>
           <p className="mt-2 text-sm text-gray-600 dark:text-gray-400">

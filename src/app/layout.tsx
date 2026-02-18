@@ -13,12 +13,12 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "FlowDesk - WhatsApp-first CRM for Micro Businesses",
+  title: "smartkhaata - WhatsApp-first CRM for Micro Businesses",
   description: "Replace Excel + WhatsApp chaos with simple deal tracking, follow-up reminders, and invoice syncing. Built for 1-5 person teams.",
   keywords: ["CRM", "WhatsApp", "small business", "micro business", "invoicing", "deal tracking"],
   authors: [{ name: "FlowDesk" }],
   openGraph: {
-    title: "FlowDesk - WhatsApp-first CRM",
+    title: "smartkhaata - WhatsApp-first CRM",
     description: "Simple CRM for micro-businesses. Track deals, send invoices, never miss a follow-up.",
     type: "website",
   },
